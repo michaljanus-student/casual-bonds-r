@@ -1,0 +1,42 @@
+Package: CausalBoundsR
+Type: Package
+Title: Granice Prawdopodobienstw Przyczynowosci dla Zmiennych Wielowartosciowych
+Version: 0.0.1
+Authors@R: c(
+    person("Michał", "Janus",
+           email = "michal.janus@student.uj.edu.pl",
+           role = c("aut", "cre")),
+    person("Marek", "Deja", role = "ths",
+           comment = c(ORCID = "0000-0003-0015-2322"))
+  )
+Description: Wyznacza granice prawdopodobienstw przyczynowosci z jednym
+    zdarzeniem hipotetycznym dla zabiegu i wyniku o wielu poziomach na
+    podstawie rozkladu obserwacyjnego i rozkladow interwencyjnych: zachowania
+    wyniku, zastapienia wyniku, zmiany zabiegu i wyniku hipotetycznego
+    w okreslonej grupie obserwowanej, wraz z granicami warunkowymi oraz
+    prawdopodobienstwem koniecznosci i wystarczalnosci dla dwoch poziomow
+    zabiegu. Udostepnia dwa warianty wzorow: jawne granice Li i Pearla (2024)
+    <doi:10.1609/aaai.v38i18.30030> oraz ostre granice w postaci zamknietej
+    Shu, Wanga i Li (2026) <doi:10.24963/ijcai.2026/452>. Zawiera procedure
+    generowania modeli przyczynowych o znanej wartosci prawdziwej.
+License: GPL-3
+Encoding: UTF-8
+Language: pl
+LazyData: true
+Depends:
+    R (>= 4.1)
+Imports:
+    graphics,
+    stats,
+    withr
+Suggests:
+    knitr,
+    lpSolve,
+    rmarkdown,
+    testthat (>= 3.0.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+RoxygenNote: 7.3.3
+URL: https://github.com/michaljanus-student/casual-bonds-r,
+    https://michaljanus-student.github.io/casual-bonds-r/
+BugReports: https://github.com/michaljanus-student/casual-bonds-r/issues
