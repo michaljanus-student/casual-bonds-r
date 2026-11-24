@@ -1,0 +1,87 @@
+---
+title: "Algorytm"
+subtitle: "Granice prawdopodobieństw przyczynowości dla zmiennych wielowartościowych"
+bibliography: literatura.bib
+link-citations: true
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 6.5,
+                      fig.height = 4)
+library(CausalBoundsR)
+```
+
+Strona opisuje metodę zaimplementowaną w pakiecie: oznaczenia, założenia,
+wzory obu wariantów i granice stosowalności. Wzory zachowują notację
+artykułu źródłowego [@liPearl2024probabilities].
+
+## Oznaczenia i założenia
+
+Zabieg $X$ ma poziomy $x_1, \ldots, x_m$, wynik $Y$ poziomy
+$y_1, \ldots, y_n$. Wynik potencjalny $Y_{x_j}$ jest wynikiem po
+hipotetycznym ustawieniu zabiegu na $x_j$ [@pearl2009causality]. Dane to
+rozkład obserwacyjny $o_{ji} = P(X = x_j, Y = y_i)$ i rozkłady interwencyjne
+$a_{ji} = P(Y_{x_j} = y_i)$. Założenie zgodności mówi, że wynik obserwowany
+jest wynikiem potencjalnym dla otrzymanego zabiegu, co wymaga warunku
+$o_{ji} \le a_{ji} \le o_{ji} + 1 - u_j$, gdzie $u_j = P(X = x_j)$.
+
+Dla zabiegu i wyniku binarnego granice prawdopodobieństwa konieczności,
+wystarczalności oraz konieczności i wystarczalności podali Tian i Pearl
+[-@tianPearl2000bounds].
+
+## Cztery rodzaje zdarzeń z jednym wynikiem hipotetycznym
+
+$$
+P(Y_{x_j} = y_i, Y = y_i), \quad P(Y_{x_j} = y_i, Y = y_k), \quad
+P(Y_{x_j} = y_i, X = x_p), \quad P(Y_{x_j} = y_i, X = x_p, Y = y_k).
+$$
+
+Zdarzenia opisują kolejno zachowanie wyniku, zastąpienie wyniku, wynik
+interwencji w grupie innego zabiegu oraz wynik interwencji w grupie
+o obserwowanym zabiegu i wyniku. Twierdzenia 4–7 artykułu źródłowego podają
+jawne granice wszystkich czterech zdarzeń.
+
+## Wariant artykułu i wariant ostry
+
+Shu, Wang i Li [-@shu2026closed] podali granice w postaci zamkniętej dla
+rodzin zdarzeń z wieloma wynikami hipotetycznymi, a Shu i Li
+[-@shuLi2026sharp] wykazali ich ostrość w każdym wymiarze. Dla jednego wyniku
+hipotetycznego granice górne obu prac są identyczne, a granice dolne różnią
+się dla zachowania wyniku
+
+$$
+L_{\text{ostra}} = \max\{o_{ji},\ a_{ji} + v_i - 1 + u_j - o_{ji}\}
+$$
+
+oraz zastąpienia wyniku
+
+$$
+L_{\text{ostra}} = \max\{0,\ a_{ji} - o_{ji} + u_j + v_k - o_{jk} - 1\}.
+$$
+
+Obie granice wynikają z ograniczenia Frécheta zastosowanego do grupy osób,
+które nie otrzymały zabiegu $x_j$; w tej grupie zarówno wynik hipotetyczny,
+jak i wynik obserwowany mają znane rozkłady brzegowe. Granice dolne
+artykułu źródłowego są ważne, lecz nie zawsze osiągalne: dla zachowania
+wyniku różnica pojawia się już przy dwóch poziomach zabiegu i wyniku, dla
+zastąpienia przy trzech poziomach obu zmiennych.
+
+## Prawdopodobieństwo konieczności i wystarczalności
+
+Dla dwóch poziomów zabiegu zdarzenie $P(Y_{x_j} = y_i, Y_{x_p} = y_k)$
+rozkłada się na dwie rozłączne grupy według otrzymanego zabiegu. Suma granic
+obu grup, połączona z ograniczeniami Frécheta dla rozkładów
+interwencyjnych, daje granice ostre (twierdzenie 8 artykułu źródłowego
+i twierdzenie 2 pracy Shu, Wanga i Li).
+
+## Granice stosowalności
+
+Tablice traktowane są jako znane rozkłady. Granice wyznaczone z częstości
+próby nie mają poziomu ufności, a błąd losowy może naruszyć warunek
+zgodności. Szerokość przedziału opisuje niepełną identyfikację; niepewność
+oszacowania z próby jest odrębnym zagadnieniem. Rozkład interwencyjny
+pochodzi z osobnego źródła, na przykład z eksperymentu z losowym
+przydziałem; rozkład warunkowy $P(Y \mid X)$ z danych obserwacyjnych jest
+inną wielkością.
+
+## Bibliografia

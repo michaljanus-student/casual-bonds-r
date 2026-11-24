@@ -1,0 +1,11 @@
+citHeader("Aby zacytowac pakiet CausalBoundsR, uzyj ponizszego opisu.")
+
+bibentry(
+  bibtype  = "Manual",
+  title    = paste("CausalBoundsR: Granice Prawdopodobienstw Przyczynowosci",
+                   "dla Zmiennych Wielowartosciowych"),
+  author   = person("Michał", "Janus"),
+  year     = "2027",
+  note     = paste("Pakiet R w wersji", meta$Version),
+  url      = "https://github.com/michaljanus-student/casual-bonds-r"
+)

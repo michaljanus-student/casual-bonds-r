@@ -1,0 +1,84 @@
+url: https://michaljanus-student.github.io/casual-bonds-r/
+
+lang: pl
+
+template:
+  bootstrap: 5
+  bslib:
+    primary: "#2E5E9E"
+    base_font: {google: "Source Sans 3"}
+    code_font: {google: "JetBrains Mono"}
+
+home:
+  title: Granice prawdopodobieństw przyczynowości
+  description: >
+    Pakiet języka R do wyznaczania granic prawdopodobieństw przyczynowości
+    dla zabiegu i wyniku o wielu poziomach, w wariancie jawnych granic Li
+    i Pearla oraz ostrych granic w postaci zamkniętej.
+
+navbar:
+  structure:
+    left:  [algorytm, poradnik, reference, news]
+    right: [aplikacja, oserwisie, github]
+  components:
+    reference:
+      text: Dokumentacja funkcji
+      href: reference/index.html
+    news:
+      text: Zmiany
+      href: news/index.html
+    algorytm:
+      text: Algorytm
+      href: articles/algorytm.html
+    poradnik:
+      text: Poradnik
+      href: articles/poradnik.html
+    aplikacja:
+      text: Aplikacja
+      href: app/index.html
+    oserwisie:
+      text: O serwisie
+      href: articles/o-serwisie.html
+
+articles:
+  - title: Metoda
+    navbar: ~
+    contents:
+      - articles/algorytm
+  - title: Użycie
+    contents:
+      - poradnik
+  - title: Informacje
+    contents:
+      - articles/o-serwisie
+
+reference:
+  - title: Przygotowanie danych
+    desc: Rozkład obserwacyjny i rozkłady interwencyjne.
+    contents:
+      - przygotuj_rozklady
+  - title: Granice zdarzeń
+    desc: Zdarzenia z jednym wynikiem hipotetycznym i PNS dla dwóch poziomów zabiegu.
+    contents:
+      - granice_zdarzenia
+      - granice_wszystkie
+      - granice_pns
+      - metody_granice
+  - title: Dane
+    desc: Model przyczynowy o znanej wartości prawdziwej i tablice przykładowe.
+    contents:
+      - generuj_model
+      - metody_rozklady
+      - tablice_kontrolne
+  - title: Pakiet
+    contents:
+      - CausalBoundsR-package
+
+footer:
+  structure:
+    left: nota
+    right: built_with
+  components:
+    nota: >
+      Serwis stanowi integralną część pracy licencjackiej na kierunku
+      elektroniczne przetwarzanie informacji, Instytut Studiów Informacyjnych UJ.

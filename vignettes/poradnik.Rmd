@@ -1,0 +1,94 @@
+---
+title: "Granice prawdopodobieństw przyczynowości krok po kroku"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Granice prawdopodobieństw przyczynowości krok po kroku}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 6.5,
+                      fig.height = 4)
+```
+
+Poradnik prowadzi przez pełną ścieżkę analizy: od tablic obserwacyjnej
+i interwencyjnej, przez granice wybranego zdarzenia i granice warunkowe, po
+kontrolę na modelu o znanej wartości prawdziwej.
+
+```{r}
+library(CausalBoundsR)
+```
+
+## Tablice wejściowe
+
+Tablica obserwacyjna zawiera wspólny rozkład zabiegu i wyniku. Tablica
+interwencyjna zawiera w wierszu $j$ rozkład wyniku po ustawieniu zabiegu na
+$x_j$, na przykład oszacowany w eksperymencie z losowym przydziałem.
+Funkcja `przygotuj_rozklady()` dopasowuje poziomy po nazwach i sprawdza
+warunek zgodności.
+
+```{r}
+dane <- przygotuj_rozklady(tablice_kontrolne$obserwacje,
+                           tablice_kontrolne$interwencje)
+dane
+```
+
+## Granice wybranego zdarzenia
+
+Prawdopodobieństwo konieczności pyta, czy w grupie, która otrzymała zabieg
+$x_2$ i odniosła sukces $y_2$, wynik przy zabiegu $x_1$ byłby porażką.
+
+```{r}
+pn <- granice_zdarzenia(dane, "grupa", wynik = "y1", zabieg = "x1",
+                        wynik_obserwowany = "y2", zabieg_obserwowany = "x2",
+                        warunkowe = TRUE)
+pn
+```
+
+Granica warunkowa $[0{,}5;\ 0{,}75]$ oznacza, że od połowy do trzech
+czwartych osób z tej grupy nie odniosłoby sukcesu bez zabiegu. Zawężenie
+przedziału wymaga dodatkowych założeń.
+
+## Prawdopodobieństwo konieczności i wystarczalności
+
+```{r}
+granice_pns(dane, wynik_po = "y2", wynik_bez = "y1")
+```
+
+## Wszystkie zdarzenia i porównanie wariantów
+
+Funkcja `granice_wszystkie()` wyznacza granice każdego zdarzenia z jednym
+wynikiem hipotetycznym. Wariant `"artykul"` odtwarza wzory Li i Pearla
+(2024), a wariant `"ostre"` wzory Shu, Wanga i Li (2026).
+
+```{r}
+model <- generuj_model(liczebnosc = 1000, ksztalt = 0.1)
+ostre <- granice_wszystkie(model$rozklady)
+artykul <- granice_wszystkie(model$rozklady, wariant = "artykul")
+roznica <- ostre$przedzialy$dolna - artykul$przedzialy$dolna
+table(rodzaj = ostre$przedzialy$rodzaj, wyzsza_dolna = roznica > 1e-12)
+```
+
+Różnice dotyczą wyłącznie dolnych granic zachowania i zastąpienia wyniku.
+W modelu o masach silnie skupionych (kształt 0,1) różnią się nieliczne
+zdarzenia; dla tablic bliskich rozkładowi jednostajnemu oba warianty dają
+zwykle te same liczby.
+
+## Kontrola na modelu o znanej wartości prawdziwej
+
+Model z generatora zna wartość prawdziwą każdego zdarzenia. Granice
+z dokładnych tablic muszą ją zawierać.
+
+```{r}
+porownanie <- merge(ostre$przedzialy, model$prawda,
+                    by = c("zdarzenie", "rodzaj"))
+mean(porownanie$wartosc >= porownanie$dolna - 1e-12 &
+       porownanie$wartosc <= porownanie$gorna + 1e-12)
+```
+
+```{r, fig.height = 6}
+plot(granice_zdarzenia(model$rozklady, "zastapienie", wynik = "y1",
+                       zabieg = "x2", wynik_obserwowany = "y3",
+                       warunkowe = TRUE), warunkowe = TRUE)
+```
